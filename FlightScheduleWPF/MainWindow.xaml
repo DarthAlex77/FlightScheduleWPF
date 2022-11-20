@@ -1,0 +1,38 @@
+﻿<Window x:Class="FlightScheduleWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:FlightScheduleWPF.Models"
+        xmlns:viewModels="clr-namespace:FlightScheduleWPF.ViewModels"
+
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowState="Maximized" WindowStyle="None">
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel x:Name="ViewModel" />
+    </Window.DataContext>
+    <DataGrid IsReadOnly="True" ItemsSource="{Binding FlightView}" AutoGenerateColumns="False" FontSize="20" AlternatingRowBackground="LightBlue" VerticalScrollBarVisibility="Hidden"
+              MouseDoubleClick="Control_OnMouseDoubleClick" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False"
+              CanUserResizeRows="False" CanUserSortColumns="False">
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Номер" Width="Auto">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate DataType="{x:Type models:Flight}">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Number}" FontSize="24" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Header="Город" Binding="{Binding Station}" FontSize="24" Width="Auto" />
+            <DataGridTextColumn Header="Статус" Binding="{Binding Status}" FontSize="24" Width="Auto" />
+            <DataGridTextColumn Header="План" Binding="{Binding PlannedDateTime, StringFormat={}{0:HH:mm}}" FontSize="24" Width="*" />
+            <DataGridTextColumn Header="Факт" Binding="{Binding ActualDt,StringFormat={}{0:HH:mm}}" FontSize="24" Width="*" />
+            <DataGridTextColumn Header="Стойки" Binding="{Binding CheckInDesks}" FontSize="24" Width="*"
+                                Visibility="{Binding Source={x:Reference ViewModel},Path= IsDeparture,Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <DataGridTextColumn Header="Выход" Binding="{Binding Gate}" FontSize="24" Width="*"
+                                Visibility="{Binding Source={x:Reference ViewModel},Path=IsDeparture ,Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </DataGrid.Columns>
+    </DataGrid>
+</Window>
