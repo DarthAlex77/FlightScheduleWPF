@@ -16,16 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Settings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DevExpressMvvm" Version="22.1.3" />
     <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
     <PackageReference Include="Selenium.WebDriver" Version="4.6.0" />

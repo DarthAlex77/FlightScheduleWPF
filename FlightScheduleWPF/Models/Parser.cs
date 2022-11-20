@@ -17,7 +17,7 @@ namespace FlightScheduleWPF.Models
         public static List<Flight> GetFlightData(string html)
         {
             EdgeOptions options = new EdgeOptions();
-            options.AddArgument($"user-data-dir={Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}");
+            options.AddArgument($"user-data-dir={Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)}");
             options.AddArgument("headless");
             EdgeDriverService edgeDriverService = EdgeDriverService.CreateDefaultService();
             edgeDriverService.HideCommandPromptWindow = true;
@@ -82,7 +82,7 @@ namespace FlightScheduleWPF.Models
                     builder.AppendLine(flight.Number);
                     foreach (JToken codeshare in token.SelectToken("$.codeshares")!)
                     {
-                        builder.AppendLine(codeshare["number"].ToString());
+                        builder.AppendLine(codeshare["number"]!.ToString());
                     }
                     flight.Number = builder.ToString().TrimEnd('\r', '\n');
                 }

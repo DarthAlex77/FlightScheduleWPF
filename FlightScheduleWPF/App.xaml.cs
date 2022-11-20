@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using FlightScheduleWPF.Models;
@@ -7,18 +8,20 @@ using Newtonsoft.Json.Linq;
 
 namespace FlightScheduleWPF
 {
-    public partial class App : Application
+    public partial class App
     {
         protected override void OnStartup(StartupEventArgs e)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            JToken settings = JsonConvert.DeserializeObject<JToken>(File.ReadAllText("Settings.json"));
-            Settings.ConnectionString = settings["ConnectionString"].ToString();
-            Settings.TomorrowString = settings["TomorrowString"].ToString();
-            Settings.IsDeparture      = settings["IsDeparture"].ToObject<bool>();
-            Settings.TimeFilterStart  = TimeSpan.Parse(settings["TimeFilterStart"].ToString());
-            Settings.TimeFilterEnd    = TimeSpan.Parse(settings["TimeFilterEnd"].ToString());
-            Settings.UpdateInterval   = TimeSpan.Parse(settings["UpdateInterval"].ToString());
+            JToken settings = JsonConvert.DeserializeObject<JToken>(File.ReadAllText("Settings.json")) ?? throw new InvalidOperationException();
+            Settings.ConnectionString       = settings["ConnectionString"]!.ToString();
+            Settings.TomorrowString         = settings["TomorrowString"]!.ToString();
+            Settings.IsDeparture            = settings["IsDeparture"]!.ToObject<bool>();
+            Settings.TimeFilterStart        = TimeSpan.Parse(settings["TimeFilterStart"]!.ToString());
+            Settings.TimeFilterEnd          = TimeSpan.Parse(settings["TimeFilterEnd"]!.ToString());
+            Settings.UpdateInterval         = TimeSpan.Parse(settings["UpdateInterval"]!.ToString());
+            Settings.TomorrowParseStartHour = settings["TomorrowParseStartHour"]!.ToObject<int>();
+            Settings.StatusesIgnoreFilter   = settings["StatusesIgnoreFilter"]!.ToObject<List<string>>()!;
             base.OnStartup(e);
         }
 

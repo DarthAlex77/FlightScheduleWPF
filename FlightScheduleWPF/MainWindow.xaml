@@ -27,9 +27,9 @@
             </DataGridTemplateColumn>
             <DataGridTextColumn Header="Город" Binding="{Binding Station}" FontSize="24" Width="Auto" />
             <DataGridTextColumn Header="Статус" Binding="{Binding Status}" FontSize="24" Width="Auto" />
-            <DataGridTextColumn Header="План" Binding="{Binding PlannedDateTime, StringFormat={}{0:HH:mm}}" FontSize="24" Width="*" />
-            <DataGridTextColumn Header="Факт" Binding="{Binding ActualDt,StringFormat={}{0:HH:mm}}" FontSize="24" Width="*" />
-            <DataGridTextColumn Header="Стойки" Binding="{Binding CheckInDesks}" FontSize="24" Width="*"
+            <DataGridTextColumn Header="План" Binding="{Binding PlannedDateTime, StringFormat={}{0:HH:mm}}" FontSize="24" Width="Auto" />
+            <DataGridTextColumn Header="Факт" Binding="{Binding ActualDt,StringFormat={}{0:HH:mm}}" FontSize="24" Width="Auto" />
+            <DataGridTextColumn Header="Стойки" Binding="{Binding CheckInDesks}" FontSize="24" Width="Auto"
                                 Visibility="{Binding Source={x:Reference ViewModel},Path= IsDeparture,Converter={StaticResource BooleanToVisibilityConverter}}" />
             <DataGridTextColumn Header="Выход" Binding="{Binding Gate}" FontSize="24" Width="*"
                                 Visibility="{Binding Source={x:Reference ViewModel},Path=IsDeparture ,Converter={StaticResource BooleanToVisibilityConverter}}" />

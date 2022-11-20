@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace FlightScheduleWPF
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private bool _isFullScreen;
 

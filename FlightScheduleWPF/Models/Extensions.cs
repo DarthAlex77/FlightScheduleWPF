@@ -10,7 +10,7 @@ namespace FlightScheduleWPF.Models
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             }
             foreach (T item in collection)
             {

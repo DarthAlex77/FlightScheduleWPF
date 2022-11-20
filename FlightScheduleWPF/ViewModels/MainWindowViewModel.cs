@@ -1,7 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.DirectoryServices.ActiveDirectory;
+using System.Linq;
 using System.Timers;
 using System.Windows.Data;
 using DevExpress.Mvvm;
@@ -18,7 +18,7 @@ namespace FlightScheduleWPF.ViewModels
             IsDeparture = Settings.IsDeparture;
             _lock       = new object();
             Flights     = new ObservableCollection<Flight>();
-            GetFlightData(null, null);
+            GetFlightData(null, null!);
             Timer timer = new Timer();
             timer.Interval  =  Settings.UpdateInterval.TotalMilliseconds;
             timer.AutoReset =  true;
@@ -42,7 +42,7 @@ namespace FlightScheduleWPF.ViewModels
             {
                 Flights.Clear();
                 Flights.AddRange(Parser.GetFlightData(Settings.ConnectionString));
-                if (TimeOnly.FromDateTime(DateTime.Now)>=TimeOnly.FromTimeSpan(TimeSpan.FromHours(21)))
+                if (TimeOnly.FromDateTime(DateTime.Now) >= TimeOnly.FromTimeSpan(TimeSpan.FromHours(Settings.TomorrowParseStartHour)))
                 {
                     Flights.AddRange(Parser.GetFlightData(Settings.TomorrowString));
                 }
@@ -51,7 +51,7 @@ namespace FlightScheduleWPF.ViewModels
 
         private static bool Filter(Flight? flight)
         {
-            return flight != null && flight.TimeToEvent >= Settings.TimeFilterStart && flight.TimeToEvent <= Settings.TimeFilterEnd || flight.Status == "Задержан";
+            return flight != null && flight.TimeToEvent >= Settings.TimeFilterStart && flight.TimeToEvent <= Settings.TimeFilterEnd || Settings.StatusesIgnoreFilter.Any(x=>flight!.Status.Contains(x));
         }
     }
 }

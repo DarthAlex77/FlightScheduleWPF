@@ -1,8 +1,0 @@
-{
-  "ConnectionString": "https://rasp.yandex.ru/station/9600216/?event=arrival&time=all",
-  "TomorrowString": "https://rasp.yandex.ru/station/9600216/?event=arrival&date=tomorrow&time=all",
-  "UpdateInterval": "00:02:30",
-  "TimeFilterStart": "-01:00:00",
-  "TimeFilterEnd": "05:00:00",
-  "IsDeparture": "False"
-}
