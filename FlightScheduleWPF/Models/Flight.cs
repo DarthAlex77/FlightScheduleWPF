@@ -12,7 +12,11 @@ namespace FlightScheduleWPF.Models
             TimeToEvent     = TimeSpan.MinValue;
             TimeDifferent   = TimeSpan.MinValue;
         }
-
+        public int CodeSharesCount
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
         public DateTimeOffset PlannedDateTime
         {
             get => GetValue<DateTimeOffset>();
@@ -28,9 +32,9 @@ namespace FlightScheduleWPF.Models
             get => GetValue<string>();
             set => SetValue(value);
         }
-        public string Status
+        public FlightStatus Status
         {
-            get => GetValue<string>();
+            get => GetValue<FlightStatus>();
             set => SetValue(value);
         }
         public DateTimeOffset? ActualDt
@@ -58,5 +62,6 @@ namespace FlightScheduleWPF.Models
             get => GetValue<string>();
             set => SetValue(value);
         }
+
     }
 }

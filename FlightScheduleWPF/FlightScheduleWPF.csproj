@@ -1,25 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<PackageLicenseExpression>AGPL-3.0</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>embedded</DebugType>
+		<WarningLevel>9999</WarningLevel>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>embedded</DebugType>
+		<WarningLevel>9999</WarningLevel>
+		<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DevExpressMvvm" Version="22.1.3" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.6.0" />
-    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="107.0.1418.42" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DevExpressMvvm" Version="22.1.3" />
+		<PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+		<PackageReference Include="Selenium.WebDriver" Version="4.7.0" />
+		<PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="107.0.1418.42" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

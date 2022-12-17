@@ -1,15 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using FlightScheduleWPF.ViewModels;
 
 namespace FlightScheduleWPF
 {
-    public partial class MainWindow
+    public partial class DepartureWindow
     {
         private bool _isFullScreen;
 
-        public MainWindow()
+        public DepartureWindow(int numberOfWindow)
         {
-            _isFullScreen = true;
+            _isFullScreen = false;
+            Title         = $"DepartureWindow # {numberOfWindow+1}";
+            DataContext   = new DepartureWindowViewModel(numberOfWindow);
             InitializeComponent();
         }
 
