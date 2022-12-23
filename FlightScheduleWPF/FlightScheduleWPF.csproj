@@ -8,6 +8,7 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<PackageLicenseExpression>AGPL-3.0</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

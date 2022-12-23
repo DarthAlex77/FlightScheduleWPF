@@ -11,7 +11,7 @@ namespace FlightScheduleWPF
         public ArrivalWindow(int numberOfWindow)
         {
             _isFullScreen = false;
-            Title         = $"DepartureWindow # {numberOfWindow +1}";
+            Title         = $"ArrivalWindow # {numberOfWindow +1}";
             DataContext   = new ArrivalWindowViewModel(numberOfWindow);
             InitializeComponent();
         }
