@@ -8,18 +8,13 @@ namespace FlightScheduleWPF.Models
         public FlightScheduleConfig()
         {
             StatusesIgnoreFilter = new List<FlightStatus>();
+            WindowSettings       = new List<WindowSettings>();
         }
 
-        public string             ArrivalString            { get; set; }
-        public string             ArrivalStringTomorrow    { get; set; }
-        public string             DepartureString          { get; set; }
-        public string             DepartureStringTomorrow  { get; set; }
-        public int                NumberOfDepartureWindows { get; set; }
-        public int                NumberOfArrivalWindows   { get; set; }
-        public TimeSpan           UpdateInterval           { get; set; }
-        public TimeSpan           TimeToEventFilterStart   { get; set; }
-        public int                TomorrowParseStartHour   { get; set; }
-        public int                NumberOfFlightsPerTable  { get; set; }
-        public List<FlightStatus> StatusesIgnoreFilter     { get; set; }
+        public List<WindowSettings> WindowSettings         { get; set; }
+        public string               StationCode            { get; set; }
+        public TimeSpan             UpdateInterval         { get; set; }
+        public TimeSpan             TimeToEventFilterStart { get; set; }
+        public List<FlightStatus>   StatusesIgnoreFilter   { get; set; }
     }
 }

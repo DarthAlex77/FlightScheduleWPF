@@ -1,15 +1,11 @@
 ﻿<Application x:Class="FlightScheduleWPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:models="clr-namespace:FlightScheduleWPF.Models">
+             xmlns:helpers="clr-namespace:FlightScheduleWPF.Helpers">
     <Application.Resources>
         <ResourceDictionary>
-            <models:EnumConverter x:Key="EnumConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <helpers:StatusToTextConverterEn x:Key="StatusToTextConverterEn" />
+            <helpers:StatusToTextConverterRu x:Key="StatusToTextConverterRu" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
@@ -18,7 +19,7 @@ namespace FlightScheduleWPF.Models
         public static void GetFlightData(Dictionary<string, string> strings)
         {
             EdgeOptions options = new EdgeOptions();
-            options.AddArgument($"user-data-dir={Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)+@"\Profile"}");
+            options.AddArgument($"user-data-dir={Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location) + @"\Profile"}");
             options.AddArgument("headless");
             EdgeDriverService edgeDriverService = EdgeDriverService.CreateDefaultService();
             edgeDriverService.HideCommandPromptWindow = true;
@@ -37,8 +38,7 @@ namespace FlightScheduleWPF.Models
             }
             driver.Quit();
             driver.CloseDevToolsSession();
-            KillEdgeProcess();
-
+            //KillEdgeProcess();
             IEnumerable<JToken> GetRawData(string html)
             {
                 driver.Navigate().GoToUrl(html);
@@ -89,28 +89,21 @@ namespace FlightScheduleWPF.Models
             {
                 Flight flight = new Flight
                 {
-                    Number          = token.SelectToken("$.number")!.ToString(),
+                    Number          = token.SelectToken("$.number")!.ToString().Replace(" ", ""),
                     ActualDt        = token.SelectToken("$.status.actualDt")?.ToObject<DateTimeOffset>(),
                     CheckInDesks    = token.SelectToken("$.status.checkInDesks")?.ToString(),
                     PlannedDateTime = token.SelectToken("$.eventDt.datetime")!.ToObject<DateTimeOffset>(),
-                    Station         = token.SelectToken("$.routeStations[0].settlement")!.ToString(),
+                    StationRu       = token.SelectToken("$.routeStations[0].settlement")!.ToString(),
                     TimeToEvent     = TimeSpan.FromHours(token.SelectToken("$.hoursBeforeEvent")!.ToObject<double>()),
                     Gate            = token.SelectToken("$.status.gate")?.ToString()
                 };
-                if (token["minutesBetweenEventDtAndActualDt"] != null)
-                {
-                    flight.TimeDifferent = TimeSpan.FromMinutes(token["minutesBetweenEventDtAndActualDt"]!.ToObject<int>());
-                }
+                flight.StationEn = Translate(flight.StationRu);
                 if (token.SelectToken("$.codeshares") != null)
                 {
-                    flight.CodeSharesCount = token.SelectToken("$.codeshares")!.Count();
-                    StringBuilder builder = new StringBuilder();
-                    builder.AppendLine(flight.Number);
                     foreach (JToken codeshare in token.SelectToken("$.codeshares")!)
                     {
-                        builder.AppendLine(codeshare["number"]!.ToString());
+                        flight.Number += "    " + codeshare["number"]!.ToString().Replace(" ", "");
                     }
-                    flight.Number = builder.ToString().TrimEnd('\r', '\n');
                 }
                 flight.Status = token.SelectToken("$.status.status")!.ToString() switch
                 {
@@ -123,10 +116,36 @@ namespace FlightScheduleWPF.Models
                     "departed"  => FlightStatus.Departed,
                     _           => flight.Status
                 };
-
+                flight.IsArrival = path.Contains("Arrival");
                 flights.Add(flight);
             }
             return flights;
+        }
+
+        private static string Translate(string ru)
+        {
+            Dictionary<string, string> cities;
+            using (StreamReader r = new StreamReader("Cities.json"))
+            {
+                string json = r.ReadToEnd();
+                cities = JsonConvert.DeserializeObject<Dictionary<string, string>>(json) ?? new Dictionary<string, string>();
+            }
+
+            if (cities.ContainsKey(ru))
+            {
+                return cities[ru];
+            }
+            HttpClient   client  = new HttpClient();
+            Task<string> content = client.GetStringAsync("https://translate.googleapis.com/translate_a/single?client=gtx&sl=ru&tl=en&dt=t&q=" + Uri.EscapeDataString(ru));
+            content.Wait();
+            JToken token  = JToken.Parse(content.Result);
+            string result = token.SelectToken("$.[0].[0].[0]")!.ToString();
+            cities.Add(ru, result);
+            using (StreamWriter w = new StreamWriter("Cities.json"))
+            {
+                w.Write(JsonConvert.SerializeObject(cities));
+            }
+            return result;
         }
     }
 }
