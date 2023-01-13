@@ -16,7 +16,7 @@ namespace FlightScheduleWPF.Helpers
                 return GetDescription((Enum) values[0]);
             }
             DateTimeOffset dt = (DateTimeOffset) values[1];
-            return $"Задержан до "+ dt.ToString("HH:mm");
+            return "Задержан до " + dt.ToString("HH:mm");
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

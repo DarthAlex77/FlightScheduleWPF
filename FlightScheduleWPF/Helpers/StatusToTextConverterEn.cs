@@ -15,10 +15,10 @@ namespace FlightScheduleWPF.Helpers
             {
                 if (status != FlightStatus.Delayed)
                 {
-                    return GetAttributeOfType<DisplayAttribute>((Enum) values[0]).Name;
+                    return GetAttributeOfType<DisplayAttribute>((Enum) values[0])!.Name!;
                 }
                 DateTimeOffset dt = (DateTimeOffset) values[1];
-                return $"Delayed to "+ dt.ToString("hh:mm tt",CultureInfo.InvariantCulture);
+                return "Delayed to " + dt.ToString("hh:mm tt", CultureInfo.InvariantCulture);
             }
             throw new InvalidOperationException();
         }

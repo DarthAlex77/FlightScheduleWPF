@@ -91,7 +91,7 @@ namespace FlightScheduleWPF.ViewModels
             vm.ItemsPerPage    = NumberOfStringPerWindow;
             vm.Pageindex       = i;
             vm.SetStrings();
-           vm.GetFlightData();
+            vm.GetFlightData();
             if (TwoColumnPerWindow)
             {
                 Count++;

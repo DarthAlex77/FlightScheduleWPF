@@ -38,7 +38,8 @@ namespace FlightScheduleWPF.Models
             }
             driver.Quit();
             driver.CloseDevToolsSession();
-            //KillEdgeProcess();
+
+            KillEdgeProcess();
             IEnumerable<JToken> GetRawData(string html)
             {
                 driver.Navigate().GoToUrl(html);
@@ -81,7 +82,7 @@ namespace FlightScheduleWPF.Models
             {
                 while (!file.EndOfStream)
                 {
-                    tokens.Add(JToken.Parse(file.ReadLine()));
+                    tokens.Add(JToken.Parse(file.ReadLine() ?? throw new InvalidOperationException()));
                 }
             }
             List<Flight> flights = new List<Flight>(tokens.Count);

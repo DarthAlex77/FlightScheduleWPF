@@ -9,6 +9,7 @@ namespace FlightScheduleWPF.Models
         {
             StatusesIgnoreFilter = new List<FlightStatus>();
             WindowSettings       = new List<WindowSettings>();
+            StationCode=string.Empty;
         }
 
         public List<WindowSettings> WindowSettings         { get; set; }

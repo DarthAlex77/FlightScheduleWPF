@@ -11,7 +11,7 @@ namespace FlightScheduleWPF
 {
     public partial class App
     {
-        public static FlightScheduleConfig Settings;
+        public static FlightScheduleConfig Settings = null!;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -43,11 +43,11 @@ namespace FlightScheduleWPF
                 MainWindow mainWindow = new MainWindow();
                 int        index      = setting.IsArrivalWindow ? firstPageOfArrivalWindow : firstPageOfDepartureWindow;
 
-                mainWindow.Loaded += (sender, args) =>
+                mainWindow.Loaded += (_, args) =>
                 {
                     MainWindow           window = (MainWindow) args.OriginalSource;
                     MainWindowsViewModel vm     = (MainWindowsViewModel) window.DataContext;
-                    vm.IsArrivalWindow         = setting.IsArrivalWindow;
+                    vm.IsArrivalWindow = setting.IsArrivalWindow;
                     vm.SetStrings();
                     vm.TwoColumnPerWindow      = setting.TwoColumnPerWindow;
                     vm.FirstPageOfWindow       = index;

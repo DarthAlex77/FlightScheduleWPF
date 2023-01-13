@@ -11,6 +11,7 @@ namespace FlightScheduleWPF.Models
             ActualDt        = DateTimeOffset.MinValue;
             TimeToEvent     = TimeSpan.MinValue;
         }
+
         public DateTimeOffset PlannedDateTime
         {
             get => GetValue<DateTimeOffset>();
@@ -61,6 +62,5 @@ namespace FlightScheduleWPF.Models
             get => GetValue<bool>();
             set => SetValue(value);
         }
-
     }
 }

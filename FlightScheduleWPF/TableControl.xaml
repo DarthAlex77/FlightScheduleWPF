@@ -117,7 +117,7 @@
                 </TextBlock>
             </Grid>
         </DataTemplate>
-        <helpers:TableTypeSelector x:Key="TableTypeSelector" 
+        <helpers:TableTypeSelector x:Key="TableTypeSelector"
                                    ArrivalRowTemplate="{StaticResource ArrivalRowTemplate}" DepartureRowTemplate="{StaticResource DepartureRowTemplate}" />
     </UserControl.Resources>
 

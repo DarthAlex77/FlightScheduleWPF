@@ -6,8 +6,9 @@ namespace FlightScheduleWPF.Helpers
 {
     internal class TableTypeSelector : DataTemplateSelector
     {
-        public          DataTemplate ArrivalRowTemplate   { get; set; }
-        public          DataTemplate DepartureRowTemplate { get; set; }
+        public DataTemplate ArrivalRowTemplate   { get; set; } = null!;
+        public DataTemplate DepartureRowTemplate { get; set; } = null!;
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is Flight flight)
