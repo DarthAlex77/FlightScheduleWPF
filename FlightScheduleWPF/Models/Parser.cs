@@ -11,20 +11,26 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Interactions;
 
 namespace FlightScheduleWPF.Models
 {
     internal static class Parser
     {
-        public static void GetFlightData(Dictionary<string, string> strings)
+        private static readonly EdgeDriver Driver;
+
+        static Parser()
         {
             EdgeOptions options = new EdgeOptions();
             options.AddArgument($"user-data-dir={Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location) + @"\Profile"}");
             options.AddArgument("headless");
             EdgeDriverService edgeDriverService = EdgeDriverService.CreateDefaultService();
             edgeDriverService.HideCommandPromptWindow = true;
-            EdgeDriver driver = new EdgeDriver(edgeDriverService, options);
+            Driver                                    = new EdgeDriver(edgeDriverService, options);
+        }
 
+        public static void GetFlightData(Dictionary<string, string> strings)
+        {
             foreach (KeyValuePair<string, string> pair in strings)
             {
                 IEnumerable<JToken> tokens = GetRawData(pair.Value);
@@ -36,22 +42,18 @@ namespace FlightScheduleWPF.Models
                     }
                 }
             }
-            driver.Quit();
-            driver.CloseDevToolsSession();
-
-            KillEdgeProcess();
             IEnumerable<JToken> GetRawData(string html)
             {
-                driver.Navigate().GoToUrl(html);
-                string script = driver.FindElement(By.XPath("/html/body/script[2]")).GetAttribute("innerHTML");
+                Driver.Navigate().GoToUrl(html);
+                string script = Driver.FindElement(By.XPath("/html/body/script[2]")).GetAttribute("innerHTML");
 
                 if (script.Contains("SSR_DATA"))
                 {
-                    IWebElement? checkbox = driver.FindElement(By.ClassName("CheckboxCaptcha-Button"));
+                    IWebElement? checkbox = Driver.FindElement(By.ClassName("CheckboxCaptcha-Button"));
                     Thread.Sleep(TimeSpan.FromSeconds(new Random().Next(2, 5)));
                     checkbox.Click();
                     Thread.Sleep(TimeSpan.FromSeconds(5));
-                    script = driver.FindElement(By.XPath("/html/body/script[2]")).GetAttribute("innerHTML");
+                    script = Driver.FindElement(By.XPath("/html/body/script[2]")).GetAttribute("innerHTML");
                 }
 
                 const string toBeSearched = "window.INITIAL_STATE = ";
@@ -60,18 +62,6 @@ namespace FlightScheduleWPF.Models
                 JObject      obj          = JObject.Parse(jsonText);
                 List<JToken> tokens       = obj.SelectTokens("$.station.threads").Children().ToList();
                 return tokens;
-            }
-
-            void KillEdgeProcess()
-            {
-                foreach (Process process in Process.GetProcessesByName("msedgedriver"))
-                {
-                    process.Kill();
-                }
-                foreach (Process process in Process.GetProcessesByName("msedge"))
-                {
-                    process.Kill();
-                }
             }
         }
 
