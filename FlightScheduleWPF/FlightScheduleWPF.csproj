@@ -8,7 +8,6 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<PackageLicenseExpression>AGPL-3.0</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Configurations>Debug;Release;X86</Configurations>
 		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
@@ -33,10 +32,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="DevExpressMvvm" Version="22.1.3" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-		<PackageReference Include="Selenium.WebDriver" Version="4.7.0" />
-		<PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="109.0.1518.44-pre" />
+		<PackageReference Include="Selenium.WebDriver" Version="4.9.1" />
+		<PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.33.0" />
 	</ItemGroup>
 
 	<ItemGroup>

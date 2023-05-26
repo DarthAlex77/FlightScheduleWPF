@@ -10,23 +10,21 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Firefox;
 
 namespace FlightScheduleWPF.Models
 {
     internal static class Parser
     {
-        private static readonly EdgeDriver Driver;
+        private static readonly FirefoxDriver Driver;
 
         static Parser()
         {
-            EdgeOptions options = new EdgeOptions();
-            options.AddArgument($"user-data-dir={Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location) + @"\Profile"}");
-            options.AddArgument("headless");
-            EdgeDriverService edgeDriverService = EdgeDriverService.CreateDefaultService();
-            edgeDriverService.HideCommandPromptWindow = true;
-            Driver                                    = new EdgeDriver(edgeDriverService, options);
+            FirefoxOptions options = new FirefoxOptions();
+            options.AddArgument("--headless");
+            FirefoxDriverService firefoxDriverService = FirefoxDriverService.CreateDefaultService();
+            firefoxDriverService.HideCommandPromptWindow = true;
+            Driver                                    = new FirefoxDriver(firefoxDriverService, options);
         }
 
         public static void GetFlightData(Dictionary<string, string> strings)
